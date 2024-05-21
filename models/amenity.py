@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 '''amenity class'''
-from base_model import BaseModel
+from .base_model import BaseModel
 
 
-class amenity(BaseModel):
+class Amenity(BaseModel):
     '''class amenity'''
     name = ""
