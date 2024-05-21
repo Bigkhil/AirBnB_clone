@@ -2,6 +2,7 @@
 '''this is the base model for all the classes'''
 import uuid
 from datetime import datetime
+from . import storage
 
 
 class BaseModel():
@@ -17,6 +18,7 @@ class BaseModel():
                 else:
                     setattr(self, key, value)
         else:
+            storage.new()
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
@@ -28,6 +30,7 @@ class BaseModel():
 
     def save(self):
         '''updates the public instance attribute updated_at'''
+        storage.save()
         self.updated_at = datetime.now()
 
     def to_dict(self):
