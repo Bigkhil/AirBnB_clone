@@ -36,5 +36,8 @@ class BaseModel():
     def to_dict(self):
         dict = self.__dict__
         dict['__class__'] = BaseModel.__name__
-        dict['created_at'] = dict['updated_at'] = self.created_at.isoformat()
+        if type(self.created_at) != str:
+            dict['created_at'] = self.created_at.isoformat()
+        if type(self.updated_at) != str:
+            dict['updated_at'] = self.updated_at.isoformat()
         return dict
