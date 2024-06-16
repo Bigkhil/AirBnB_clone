@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 '''file_storage file serializes and deserializes instances'''
-import os
 import json
-
+from models.base_model import BaseModel
 
 class FileStorage():
     '''file_storage class used for serialization and deserialization'''
@@ -16,15 +15,23 @@ class FileStorage():
     def new(self, obj):
         '''sets in __objects the obj with key <obj class name>.id'''
         key = '{}.{}'.format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj.to_dict()
+        self.__objects[key] = obj
 
     def save(self):
         '''serializes __objects to the JSON file (path: __file_path)'''
         with open(self.__file_path, 'w') as file:
-            file.write(json.dumps(self.__objects))
+            dict = {}
+            for key, value in self.__objects.items():
+                dict[key] = value.to_dict()
+            json.dump(dict, file)
 
     def reload(self):
         ''' deserializes the JSON file to __objects'''
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, 'r') as file:
-                self.__objects = json.loads(file.read())
+        try:
+            with open(self.__file_path, "r") as file:
+                dictofdicts = json.load(file)
+                for key, val in dictofdicts.items():
+                    obj = BaseModel(**val)
+                    self.__objects[key] = obj
+        except FileNotFoundError:
+            pass
