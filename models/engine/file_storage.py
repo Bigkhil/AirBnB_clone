@@ -3,6 +3,7 @@
 import json
 from models.base_model import BaseModel
 
+
 class FileStorage():
     '''file_storage class used for serialization and deserialization'''
     __file_path = './file.json'
